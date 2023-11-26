@@ -8,3 +8,4 @@ USE CALLBACK - it is used to store a function in cache
 
 USE REF
     -it is used to refrence to a element
+    -and do direct do manuplation of the dom 

@@ -10,7 +10,7 @@ function App() {
     const [charAllowed , setCharAllowed] = useState(false);
 
     const [password , setPassword] = useState("");
-    //we define variables for there specific use cases 
+            //we define variables for there specific use cases 
     
 
     //use ref
@@ -18,8 +18,8 @@ function App() {
     const passwordRef = useRef(null)
 
 
-    //we careated a use ref with initail value of nothing --- and  used it later on to ref to the input we get back from random text generator
-    
+             //we careated a use ref with initail value of nothing --- and  used it later on to ref to the input we get back from random text generator
+
     
 
     const passwordGenerator = useCallback( () => {
@@ -66,7 +66,7 @@ const copypasswordToClipboard = useCallback(() =>{
   //we only selected it we didnt use it 
 
     // passwordRef.current?.setSelectionRange(0 ,8)
-    
+
   window.navigator.clipboard.writeText(password)
   //we call this functio via a button on the UI, when we call this fuction we already have a value in password we store that in here --- on the keyboard
 
