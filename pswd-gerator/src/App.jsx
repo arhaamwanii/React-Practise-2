@@ -1,66 +1,75 @@
 import { useState , useCallback ,   useEffect , useRef} from 'react'
 
+
+
+
 function App() {
  
-  const [length , setLength] = useState(8);
-  const [numberALlowed , setNumberAllowed] = useState(false);
-  const [charAllowed , setCharAllowed] = useState(false);
+    const [length , setLength] = useState();
+    const [numberALlowed , setNumberAllowed] = useState(false);
+    const [charAllowed , setCharAllowed] = useState(false);
 
-  const [password , setPassword] = useState("");
-  //we define variables for there specific use cases 
-  
+    const [password , setPassword] = useState("");
+    //we define variables for there specific use cases 
+    
 
-  //use ref
+    //use ref
 
-  const passwordRef = useRef(null)
-
-
-  //we careated a use ref with initail value of nothing --- and  used it later on to ref to the input we get back from random text generator
-  
-  
-
-  const passwordGenerator = useCallback( () => {
-    let pass = ""
-    let str = "ABCKDEFGHIJKLMNOUPQRSTUVWXYabcdefghijklmnouprstuvqxyz"
-    //straight up defining the variables and storing the value we want to pick randomply out of
-
-    if (numberALlowed) str += "0123456789"
-    if (charAllowed) str += "@-_}{+=#$%&*()"
-    //creating a command which if the argument in it is  true, adds the things in it to the actaully vairbale out of whcih we are choosing actaully
+    const passwordRef = useRef(null)
 
 
-    for (let i = 1; i <= length; i++) {
+    //we careated a use ref with initail value of nothing --- and  used it later on to ref to the input we get back from random text generator
+    
+    
 
-      let char = Math.floor(Math.random() * str.length + 1 )
-      //this picks up value form  a math.random(DECIAML VALUE) --- then we multiply thay with the length of the string which means it will give us a number between one and what ever is the length of the string --- we add one to it to make sure we are includng the last value  ---- the we floor this given number from a decial to actial numebr -- Math.Floor because we are rounding the number down(adding one also help here)
+    const passwordGenerator = useCallback( () => {
+      let pass = ""
+      let str = "ABCKDEFGHIJKLMNOUPQRSTUVWXYabcdefghijklmnouprstuvqxyz"
+      //straight up defining the variables and storing the value we want to pick randomply out of
 
-      //from the length which is determined  in the length variable we pic up a 
+      if (numberALlowed) str += "0123456789"
+      if (charAllowed) str += "@-_}{+=#$%&*()"
+      //creating a command which if the argument in it is  true, adds the things in it to the actaully vairbale out of whcih we are choosing actaully
 
-      pass = pass + str.charAt(char)
-      //we get the value from the ste and using the random value we generated we specify which value to put in this pass keyword --- look of this legth makes sure that the cycle of adding a random number to the pass is run only the number of times it has been soecified in the length vairables whoes value we actively change via other function 
-   
-   
-    }
+
+
+      for (let i = 1; i <= length; i++) {
+
+        let char = Math.floor(Math.random() * str.length + 1 )
+        //this picks up value form  a math.random(DECIAML VALUE) --- then we multiply thay with the length of the string which means it will give us a number between one and what ever is the length of the string --- we add one to it to make sure we are includng the last value  ---- the we floor this given number from a decial to actial numebr -- Math.Floor because we are rounding the number down(adding one also help here)
+
+        //from the length which is determined  in the length variable we pic up a 
+
+        pass = pass + str.charAt(char)
+        //we get the value from the ste and using the random value we generated we specify which value to put in this pass keyword --- look of this legth makes sure that the cycle of adding a random number to the pass is run only the number of times it has been soecified in the length vairables whoes value we actively change via other function 
+    
+    
+      }
 
 setPassword(pass)
+//we give this value here Password State which we defined earlier ---which we later render in the inpput value box
 
   } , [length, numberALlowed , charAllowed , setPassword] )
+//change in any of these varibales will result in the call back of this function again and again
 
 
 
+useEffect(() =>{passwordGenerator() } , [length, numberALlowed , charAllowed , passwordGenerator])
 
-useEffect(() =>{passwordGenerator()
-  
-  } , [length, numberALlowed , charAllowed , passwordGenerator])
-
+//whenever a change in any these varibales takes place the password generator function gets called again and again -- and also on the initail mount of the variable 
 
 
 
 
 const copypasswordToClipboard = useCallback(() =>{
   passwordRef.current?.select()
-  passwordRef.current?.setSelectionRange(0 ,8)
+  //we only selected it we didnt use it 
+
+    // passwordRef.current?.setSelectionRange(0 ,8)
+    
   window.navigator.clipboard.writeText(password)
+  //we call this functio via a button on the UI, when we call this fuction we already have a value in password we store that in here --- on the keyboard
+
 } ,  [password  ] )
 
 
